@@ -7,6 +7,7 @@
 #include <memory>
 
 #include "Common/CommonTypes.h"
+#include "WindwakerMultiplayer.h"
 
 enum class FieldType;
 class PointerWrap;
@@ -448,5 +449,6 @@ private:
   u32 m_odd_field_last_hl = 0;    // index last halfline of the odd field
 
   Core::System& m_system;
+  Windwaker::WindwakerMultiplayer* _windwaker;
 };
 }  // namespace VideoInterface

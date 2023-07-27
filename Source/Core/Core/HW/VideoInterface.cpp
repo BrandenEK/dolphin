@@ -34,13 +34,20 @@
 #include "VideoCommon/VideoBackendBase.h"
 #include "VideoCommon/VideoConfig.h"
 
+#include "Core/HW/memmap.h"
+#include "WindwakerMultiplayer.h"
+
 namespace VideoInterface
 {
 VideoInterfaceManager::VideoInterfaceManager(Core::System& system) : m_system(system)
 {
+  _windwaker = new Windwaker::WindwakerMultiplayer();
 }
 
-VideoInterfaceManager::~VideoInterfaceManager() = default;
+VideoInterfaceManager::~VideoInterfaceManager()
+{
+  delete _windwaker;
+}
 
 static constexpr std::array<u32, 2> CLOCK_FREQUENCIES{{
     27000000,
@@ -840,6 +847,8 @@ void VideoInterfaceManager::EndField(FieldType field, u64 ticks)
 
   g_perf_metrics.CountVBlank();
   Core::OnFrameEnd();
+
+  _windwaker->Update();
 }
 
 // Purpose: Send VI interrupt when triggered
